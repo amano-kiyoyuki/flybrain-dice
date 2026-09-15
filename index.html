@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080a0d">
+  <meta name="description" content="ショウジョウバエに着想を得た簡易神経回路シミュレーションが、ブラウザ上でサイコロを振る実験。">
+  <title>ハエの脳にサイコロを振らせてみた</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <p class="eyebrow">DIGITAL DROSOPHILA EXPERIMENT / 001</p>
+      <h1>ハエの脳に<br><span>サイコロを振らせてみた</span></h1>
+      <p class="lead">8つの簡易神経活動が閾値を越えたとき、ブラウザのサイコロが振られます。</p>
+    </header>
+
+    <section class="experiment" aria-label="ハエ脳サイコロ実験">
+      <div class="brain-panel panel">
+        <div class="panel-heading">
+          <div>
+            <p class="panel-kicker">NEURAL ACTIVITY</p>
+            <h2>FlyBrain <span>Mock</span></h2>
+          </div>
+          <div class="status" id="status" data-state="idle">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span id="statusText">STANDBY</span>
+          </div>
+        </div>
+
+        <div class="brain-stage">
+          <canvas id="brainCanvas" width="760" height="560" aria-label="8つの神経活動グループの可視化"></canvas>
+          <div class="brain-label" aria-hidden="true">
+            <span>8 GROUPS</span>
+            <strong id="signalValue">0.000</strong>
+            <small>ROLL SIGNAL</small>
+          </div>
+        </div>
+
+        <div class="signal-row">
+          <div class="signal-meta">
+            <span>motor output</span>
+            <span><strong id="motorValue">0</strong>% / threshold <strong id="thresholdValue">62</strong>%</span>
+          </div>
+          <div class="meter" role="progressbar" aria-label="運動信号" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="motorMeter">
+            <span id="motorBar"></span>
+            <i id="thresholdMarker" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="dice-panel panel">
+        <div class="panel-heading">
+          <div>
+            <p class="panel-kicker">BROWSER OUTPUT</p>
+            <h2>Dice <span>Interface</span></h2>
+          </div>
+          <p class="roll-count"><span id="rollCount">0000</span> ROLLS</p>
+        </div>
+
+        <div class="dice-stage" aria-live="polite" aria-atomic="true">
+          <div class="dice-aura" aria-hidden="true"></div>
+          <div class="die" id="die" data-face="1" role="img" aria-label="サイコロの目は1">
+            <span class="pip p1"></span><span class="pip p2"></span><span class="pip p3"></span>
+            <span class="pip p4"></span><span class="pip p5"></span><span class="pip p6"></span>
+            <span class="pip p7"></span><span class="pip p8"></span><span class="pip p9"></span>
+          </div>
+          <p class="last-event" id="lastEvent">脳活動の開始を待っています</p>
+        </div>
+
+        <div class="distribution" aria-label="出目の分布">
+          <div class="distribution-heading">
+            <span>DISTRIBUTION</span>
+            <span>平均 <strong id="averageValue">—</strong></span>
+          </div>
+          <div class="bars" id="bars"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="controls" aria-label="実験の操作">
+      <button class="primary-button" id="toggleButton" type="button">
+        <span class="button-icon" aria-hidden="true">▶</span>
+        <span id="toggleLabel">実験を開始</span>
+      </button>
+      <button class="secondary-button" id="singleRollButton" type="button">1回だけ刺激</button>
+      <button class="text-button" id="resetButton" type="button">RESET</button>
+      <label class="speed-control" for="speedRange">
+        <span>刺激の速さ</span>
+        <input id="speedRange" type="range" min="1" max="5" value="3" step="1">
+      </label>
+    </section>
+
+    <section class="explanation">
+      <div>
+        <p class="panel-kicker">HOW IT WORKS</p>
+        <h2>サイコロの出目ではなく、<br>振るタイミングを脳が決める。</h2>
+      </div>
+      <ol>
+        <li><span>01</span><p>仮想環境から左右の動きと接近刺激を入力</p></li>
+        <li><span>02</span><p>8つのリーキーな活動グループが信号を更新</p></li>
+        <li><span>03</span><p>運動信号が閾値を越えると、サイコロを振る</p></li>
+      </ol>
+    </section>
+
+    <aside class="disclaimer">
+      <strong>IMPORTANT</strong>
+      <p>これは生きたハエの脳や完全なコネクトームではありません。Frankweb33 / Himas1211 の <a href="https://github.com/Frankweb33/flybrain-robot-bridge" target="_blank" rel="noreferrer">flybrain-robot-bridge</a> に含まれる、8つの手設計された簡易モデルをブラウザ向けに移植した実験です。出目自体はブラウザの乱数で決まります。</p>
+    </aside>
+
+    <footer>
+      <p>FLYBRAIN DICE EXPERIMENT</p>
+      <p>Concept &amp; Web Experiment by Kiyoyuki Amano · 2026</p>
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
